@@ -2,12 +2,18 @@
  * FRED (FEDERAL RESERVE ECONOMIC DATA) MODULE
  * Fetches macroeconomic indicators
  * 
+ * BASE URL: https://api.stlouisfed.org/fred/
+ * DOCS: https://fred.stlouisfed.org/docs/api/fred/
+ * 
  * CONSTRAINTS:
  * - Must accept env parameter for secrets
  * - Must wrap ALL fetch in try/catch
  * - Must return null on failure
  * - Must focus on analysis-ready data, not raw series
  */
+
+// Official FRED API base URL
+const BASE_URL = 'https://api.stlouisfed.org/fred/';
 
 // FRED series IDs for key indicators
 const SERIES_IDS = {
@@ -76,7 +82,7 @@ async function fetchSeries(seriesId, apiKey) {
       limit: 24 // Last 24 observations
     });
     
-    const response = await fetch(`https://api.stlouisfed.org/fred/series/observations?${params}`);
+    const response = await fetch(`${BASE_URL}series/observations?${params}`);
     
     if (!response.ok) {
       console.warn(`FRED series ${seriesId} returned ${response.status}`);
@@ -153,4 +159,4 @@ function getSeriesUnit(seriesId) {
     INDUSTRIAL_PROD: 'Index 2017=100'
   };
   return units[seriesId] || '';
-  }
+}
